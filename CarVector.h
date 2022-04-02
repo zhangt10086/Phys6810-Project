@@ -7,6 +7,8 @@
 // Revision history:
 //     03/27/2022:  Original version
 //     04/02/2022: Added constructor for vector that uses polar coord.
+//                 Added overloaded plus operator
+//                 Set accessor functions as const
 //
 //
 // Notes:
@@ -36,12 +38,15 @@ class CarVector
   CarVector(PolVector aVector); //Constructor using vector w/ polar coord.
 
   //Accessor functions
-  double getX(); //Returns x coordinate
-  double getY(); //Returns y coordinate
+  double getX() const; //Returns x coordinate
+  double getY() const; //Returns y coordinate
 
   //Mutator functions
   void setX(double xCoord); //Sets x value to xCoord
   void setY(double yCoord); //Sets y value to yCoord
+
+  //Overloaded operators
+  friend CarVector operator+(const CarVector& aVec, const CarVector& bVec);
 
  private:
   double x; //X coordinate

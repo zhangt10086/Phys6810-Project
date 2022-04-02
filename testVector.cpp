@@ -57,5 +57,15 @@ int main() {
   cout << "Radius of vector is " << aPolVec.getR() << endl;
   cout << "Angle between y and x is " << aPolVec.getTheta() << endl;
 
+  CarVector carSum = firstCarVec + polToCar;
+  cout << "Outputting info about sum of the two vectors (Car ver.)" << endl;
+  cout << "x length of vector is " << carSum.getX() << endl;
+  cout << "y length of vector is " << carSum.getY() << endl;
+
+  PolVector polSum = aPolVec + carToPol;
+  cout << "Outputting info about sum of the two vectors (Pol ver.)" << endl;
+  cout << "Radius of vector is " << polSum.getR() << endl;
+  cout << "Angle between y and x is " << polSum.getTheta() << endl;
+
   return 0;
 }

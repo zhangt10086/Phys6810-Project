@@ -7,6 +7,8 @@
 // Revision history:
 //     03/27/2022  Original version
 //     04/02/2022  Implemented Constructor that uses PolVector
+//                 Implemented + operator
+//                 Modified accessor functions to be const
 //
 //
 //
@@ -34,11 +36,11 @@ CarVector::CarVector(PolVector aVector) {
   y = aVector.getR() * sin(aVector.getTheta()); //x = r * sin(theta)
 }
 
-double CarVector::getX() {
+double CarVector::getX() const {
   return x;
 }
 
-double CarVector::getY() {
+double CarVector::getY() const {
   return y;
 }
 
@@ -48,4 +50,13 @@ void CarVector::setX(double xCoord) {
 
 void CarVector::setY(double yCoord) {
   y = yCoord;
+}
+
+CarVector operator+(const CarVector& aVec, const CarVector& bVec) {
+  double xSum = aVec.getX() + bVec.getX();
+  double ySum = aVec.getY() + bVec.getY();
+
+  CarVector sum(xSum, ySum);
+
+  return sum;
 }
