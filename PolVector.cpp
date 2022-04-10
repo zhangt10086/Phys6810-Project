@@ -6,8 +6,14 @@
 //
 // Revision history:
 //     03/27/2022  Original version
-//     04/02/2022  Implemented constructor for CarVector
 //
+//     04/02/2022  Implemented constructor for CarVector
+//                 Implemented + operator
+//                 Modified accesor functions to be const
+//
+//     04/04/2022: Implemented - and = operators
+//
+//     04/10/2022: Fixed compilation bug with = operator
 //
 //
 // TO DO:
@@ -39,11 +45,11 @@ PolVector::PolVector(CarVector aVector) {
 
 }
 
-double PolVector::getR() {
+double PolVector::getR() const {
   return r;
 }
 
-double PolVector::getTheta() {
+double PolVector::getTheta() const {
   return theta;
 }
 
@@ -53,4 +59,32 @@ void PolVector::setR(double rCoord) {
 
 void PolVector::setTheta(double thetaCoord) {
   theta = thetaCoord;
+}
+
+PolVector operator+(const PolVector& aVec, const PolVector& bVec) {
+  CarVector aCar(aVec);
+  CarVector bCar(bVec);
+  CarVector carSum(aCar + bCar);
+
+  PolVector polSum(carSum);
+
+  return polSum;
+}
+
+PolVector operator-(const PolVector& aVec, const PolVector& bVec) {
+  CarVector aCar(aVec);
+  CarVector bCar(bVec);
+  CarVector carDiff(aCar - bCar);
+
+  PolVector polDiff(carDiff);
+
+  return polDiff;
+}
+
+PolVector& PolVector::operator=(const PolVector& aVec) {
+
+  r = aVec.r;
+  theta = aVec.theta;
+
+  return *this;
 }

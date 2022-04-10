@@ -7,6 +7,8 @@
 // Revision history:
 //     03/27/2022:  Original version
 //
+//     04/10/2022:  Included Coulomb's constant
+//
 //
 // Notes:
 //    - Default constructor should create a particle with a mass & charge of an electron.
@@ -15,9 +17,13 @@
 //
 //-----------------------------------------
 
+#include <math.h>
+
 
 #ifndef PARTICLE_H
 #define PARTICLE_H
+
+const double COULOMB = 8.988 * pow(10,9);
 
 class Particle
 {
