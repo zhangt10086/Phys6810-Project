@@ -6,11 +6,19 @@
 //
 // Revision history:
 //     03/27/2022:  Original version
+//
 //     04/02/2022:  Added constructor for vector using cartesian coord.
+//                  Added overloaded + operator
+//                  Set accessor functions as const
+//
+//     04/04/2022:  Added - and = operators
+//
+//     04/10/2022: Fixed compilation bug with = operator
 //
 //
 // Notes:
 //    - The PolVector class represents a vector in polar coordinates
+//    - Theta is in radians
 //
 //
 //
@@ -35,12 +43,17 @@ class PolVector
   PolVector(CarVector); //Constructor w/ CarVector
 
   //Accessor functions
-  double getR(); //Returns r coordinate
-  double getTheta(); //Returns theta coordinate in radians.
+  double getR() const; //Returns r coordinate
+  double getTheta() const; //Returns theta coordinate in radians.
 
   //Mutator functions
   void setR(double rCoord); //Sets r value to rCoord
   void setTheta(double thetaCoord); //Sets theta value to thetaCoord
+
+  //Overloaded operators
+  friend PolVector operator+(const PolVector& aVec, const PolVector& bVec);
+  friend PolVector operator-(const PolVector& aVec, const PolVector& bVec);
+  PolVector& operator=(const PolVector& aVec);
 
  private:
   double r; //R coordinate
