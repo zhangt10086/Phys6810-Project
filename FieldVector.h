@@ -9,6 +9,8 @@
 //
 //     04/10/2022:  Added terminating #endif
 //
+//     04/19/2022:  Added + operator and mutator for field data member
+//
 //
 // Notes:
 //    - The FieldVector class has two data members, a
@@ -41,8 +43,10 @@ class FieldVector
   PolVector getField() const; //Returns the field vector
 
   //Mutator functions
-  //Won't make these for now as I don't anticipate
-  //the FieldVector class needing these to be altered
+  void setField(PolVector aVector); //Sets the field vector
+
+  //Overloaded operators
+  friend FieldVector operator+(const FieldVector& aVec, const FieldVector& bField);
 
  private:
   CarVector location;

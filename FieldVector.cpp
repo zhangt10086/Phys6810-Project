@@ -9,6 +9,8 @@
 //
 //     04/10/2022  Fixed minor misspelling of "const"
 //
+//     04/19/2022  Implemented + operator and setField()
+//
 //
 //
 //---------------------------------------------------------
@@ -35,4 +37,16 @@ CarVector FieldVector::getLocation() const {
 
 PolVector FieldVector::getField() const {
   return fieldVec;
+}
+
+void FieldVector::setField(PolVector aVector) {
+  fieldVec = aVector;
+}
+
+FieldVector operator+(const FieldVector& aVec, const FieldVector& bVec) {
+  PolVector newField = aVec.getField() + bVec.getField();
+
+  FieldVector sum = FieldVector(aVec.getLocation(), newField);
+
+  return sum;
 }
