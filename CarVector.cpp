@@ -38,7 +38,7 @@ CarVector::CarVector(double xCoord, double yCoord) {
 
 CarVector::CarVector(PolVector aVector) {
   x = aVector.getR() * cos(aVector.getTheta()); //x = r * cos(theta)
-  y = aVector.getR() * sin(aVector.getTheta()); //x = r * sin(theta)
+  y = aVector.getR() * sin(aVector.getTheta()); //y = r * sin(theta)
 }
 
 double CarVector::getX() const {

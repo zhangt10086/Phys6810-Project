@@ -8,6 +8,9 @@
 // Revision history:
 //     04/19/2022  Original version
 //
+//     04/20/2022  Included code to skip x = 0 for grid compatibility
+//                 Included additional lines for debugging
+//
 //
 //
 // TO-DO:
@@ -26,6 +29,9 @@ using namespace std;
 
 const double TOLERENCE = 1e-13; //Tolerence for us to consider to doubles to be equal.
 
+const double FIELD_SCALE = 1e11; //Scale to make field vectors visible
+const double POTENTIAL_SCALE = 1e10; //Scale for potential graph
+
 inline bool isEqual(double a, double b); //Boolean function to compare whether or not a and b are equal
 
 //Function to calculate potential at a given location given a set of particles.
@@ -37,8 +43,8 @@ FieldVector calculateField(vector<MapParticle> particles, CarVector location);
 int main() {
 
   vector<MapParticle> particleVector;
-
-  const double equipotential[] = {-1.0e-10,-1.25e-10, -1.5e-10, -1.75e-10, -2.0e-10, -2.25e-10, -2.5e-10, -2.75e-10, -3.0e-10 -3.25e-10, -3.50e-10, -3.75e-10, -4.0e-10, -4.25e-10, -4.5e-10}; //Array of our equipotential lines
+  
+  const double equipotential[] = {-1.0e-10,-2.0e-10, -3.0e-10, -4.0e-10}; //Array of our equipotential lines
   const int arrSize = 15; //Size of equipotential array
 
   bool doneWithInput = false;
@@ -81,8 +87,8 @@ int main() {
   foutField.open("fieldGrid.dat");
 
   //Initialize headers for both files
-  foutPotential << "#x     y      V" << endl;
-  foutField << "#x    y    fieldX  fieldY" << endl;
+  //foutPotential << "#x     y      V" << endl;
+  //foutField << "#x    y    fieldX  fieldY" << endl;
 
   //Set precision on files
   foutPotential << setprecision(3);
@@ -91,18 +97,26 @@ int main() {
   //Calculate bounds of the region where we'll be plotting
   //IMPLEMENT LATER IF TIME ALLOWS, FOR NOW, ASSUME THE FOLLOWING BOUNDS
 
-  double xMin = -20.0;
-  double xMax = 20.0;
-  double yMin = -20.0;
-  double yMax = 20.0;
+  double xMin = -10.0;
+  double xMax = 10.0;
+  double yMin = -10.0;
+  double yMax = 10.0;
 
-  const double STEP = 0.1;
+  const double STEP = 0.2;
 
 
   //Using the "grid" method, calculate potential at each point of the grid.
 
 
   for(double x = xMin; x <= xMax; x += STEP) {
+
+    //Break for x = 0 
+    //We do this because C++ outputs a number not exactly 0 for x
+    //into the potentialGrid.dat file, but this breaks the grid format
+    //that gnuplot requires
+    //if(isEqual(x, 0.0)) {
+    //continue;
+    //}
     
     for(double y = yMin; y <= yMax; y += STEP) {
       
@@ -127,7 +141,7 @@ int main() {
 
 	foutPotential << left << setw(15) << x
 		      << left << setw(15) << y
-		      << left << setw(15) << potential << endl;
+		      << left << setw(15) << potential * POTENTIAL_SCALE << endl;
 
 	//After calculating potential, loop through equipotential array to determine if we should calculate the
 	//electric field also
@@ -139,9 +153,11 @@ int main() {
 	 
 	  needField = isEqual(potential, equipotential[arrIndex]);
 
+	  //DEBUG INFO
 	  if(needField) {
 	    cout << "Equipotential is: " << equipotential[arrIndex] << "  Potential is: " << potential << endl;
 	    cout << "Difference was: " << fabs(potential - equipotential[arrIndex]) << endl;
+	    cout << "X: " << x << " Y: " << y << endl;
 	  }
 
 	  arrIndex++;
@@ -156,10 +172,14 @@ int main() {
 
 	  //The 1e10 is to make the field lines visible on the plot
 
+	  //DEBUG INFO
+	  cout << "Radius: " << fieldLength.getR() << endl;
+	  cout << "Angle: " << fieldLength.getTheta() << endl;
+
 	  foutField << left << setw(15) << x
 		    << left << setw(15) << y
-		    << left << setw(15) << polToCar.getX() * 1e11
-		    << left << setw(15) << polToCar.getY() * 1e11 << endl;
+		    << left << setw(15) << polToCar.getX() * FIELD_SCALE
+		    << left << setw(15) << polToCar.getY() * FIELD_SCALE << endl;
 
 	}
       }

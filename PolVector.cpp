@@ -40,7 +40,7 @@ PolVector::PolVector(CarVector aVector) {
   double xSquared= aVector.getX() * aVector.getX();
   double ySquared = aVector.getY() * aVector.getY();
 
-  r = sqrt(xSquared + ySquared); //r = sqrt(x^2 + y^2)
+  r = fabs(sqrt(xSquared + ySquared)); //r = sqrt(x^2 + y^2)
   theta = atan( (aVector.getY() / aVector.getX()) ); //theta = arctan(y/x)
 
 }

@@ -14,6 +14,8 @@
 //---------------------------------------------------------
 // Header files
 #include "MapParticle.h"
+#include <cmath>
+#include <iostream>
 
 MapParticle::MapParticle() {
   Particle defaultParticle;
@@ -71,8 +73,16 @@ FieldVector MapParticle::calcElecField(CarVector aLocation) {
   CarVector diff = aLocation - location;
   PolVector polDiff(diff); //Convert to CarVector
 
+
+
+  //FOR DEBUGGING, REMOVE LATER
+  std::cout << "Diff info: " << std::endl;
+  std::cout << "X: " << diff.getX() << " Y: " << diff.getY() << std::endl;
+  std::cout << "Radius: " << polDiff.getR() << " Theta: " << polDiff.getTheta() << std::endl;
+
   //Electric field strength is kQ/r^2
-  double fieldStrength = COULOMB * particle.getCharge() / ( polDiff.getR() * polDiff.getR() );
+  //double fieldStrength = COULOMB * particle.getCharge() / ( polDiff.getR() * polDiff.getR() );
+  double fieldStrength = COULOMB * particle.getCharge() / (diff.getX() * diff.getX() + diff.getY() + diff.getY());
 
   PolVector fieldVector(fieldStrength, polDiff.getTheta());
   FieldVector result(aLocation, fieldVector);
