@@ -11,6 +11,7 @@
 //     04/20/2022  Included code to skip x = 0 for grid compatibility
 //                 Included additional lines for debugging
 //
+//     04/21/2022  Commented out debug info lines
 //
 //
 // TO-DO:
@@ -29,7 +30,7 @@ using namespace std;
 
 const double TOLERENCE = 1e-13; //Tolerence for us to consider to doubles to be equal.
 
-const double FIELD_SCALE = 1e11; //Scale to make field vectors visible
+const double FIELD_SCALE = 1.0e11; //Scale to make field vectors visible
 const double POTENTIAL_SCALE = 1e10; //Scale for potential graph
 
 inline bool isEqual(double a, double b); //Boolean function to compare whether or not a and b are equal
@@ -45,7 +46,7 @@ int main() {
   vector<MapParticle> particleVector;
   
   const double equipotential[] = {-1.0e-10,-2.0e-10, -3.0e-10, -4.0e-10}; //Array of our equipotential lines
-  const int arrSize = 15; //Size of equipotential array
+  const int arrSize = 4; //Size of equipotential array
 
   bool doneWithInput = false;
 
@@ -97,12 +98,12 @@ int main() {
   //Calculate bounds of the region where we'll be plotting
   //IMPLEMENT LATER IF TIME ALLOWS, FOR NOW, ASSUME THE FOLLOWING BOUNDS
 
-  double xMin = -10.0;
-  double xMax = 10.0;
-  double yMin = -10.0;
-  double yMax = 10.0;
+  double xMin = -20.0;
+  double xMax = 20.0;
+  double yMin = -20.0;
+  double yMax = 20.0;
 
-  const double STEP = 0.2;
+  const double STEP = 0.05;
 
 
   //Using the "grid" method, calculate potential at each point of the grid.
@@ -154,11 +155,13 @@ int main() {
 	  needField = isEqual(potential, equipotential[arrIndex]);
 
 	  //DEBUG INFO
+	  /*
 	  if(needField) {
 	    cout << "Equipotential is: " << equipotential[arrIndex] << "  Potential is: " << potential << endl;
 	    cout << "Difference was: " << fabs(potential - equipotential[arrIndex]) << endl;
 	    cout << "X: " << x << " Y: " << y << endl;
 	  }
+	  */
 
 	  arrIndex++;
 
@@ -170,11 +173,11 @@ int main() {
 	  PolVector fieldLength = aField.getField();
 	  CarVector polToCar(fieldLength);
 
-	  //The 1e10 is to make the field lines visible on the plot
-
 	  //DEBUG INFO
+	  /*
 	  cout << "Radius: " << fieldLength.getR() << endl;
 	  cout << "Angle: " << fieldLength.getTheta() << endl;
+	  */
 
 	  foutField << left << setw(15) << x
 		    << left << setw(15) << y

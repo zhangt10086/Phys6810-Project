@@ -15,6 +15,9 @@
 //
 //     04/10/2022: Fixed compilation bug with = operator
 //
+//     04/21/2022: Changed PolVector(CarVector) constructor to
+//                 use atan2 rather than atan
+//
 //
 // TO DO:
 //    - Add to std namespace (Either here or header??)
@@ -41,7 +44,13 @@ PolVector::PolVector(CarVector aVector) {
   double ySquared = aVector.getY() * aVector.getY();
 
   r = fabs(sqrt(xSquared + ySquared)); //r = sqrt(x^2 + y^2)
-  theta = atan( (aVector.getY() / aVector.getX()) ); //theta = arctan(y/x)
+  theta = atan2( aVector.getY(), aVector.getX() ); //theta = arctan(y/x)
+
+  //Make sure radius is positive
+  if(r < 0) {
+    r = fabs(r);
+    theta += M_PI;
+  }
 
 }
 

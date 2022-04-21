@@ -17,6 +17,8 @@
 // Header files
 #include "FieldVector.h"
 
+using namespace std;
+
 FieldVector::FieldVector() {
   CarVector defaultCar;
   PolVector defaultPol;

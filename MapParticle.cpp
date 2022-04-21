@@ -7,6 +7,10 @@
 // Revision history:
 //     04/04/2022  Original version
 //
+//     04/21/2022 Fixed field lines pointing in the wrong direction
+//                under certain cases
+//
+//                Commented out debug output lines
 //
 //
 // TO-DO:
@@ -76,15 +80,24 @@ FieldVector MapParticle::calcElecField(CarVector aLocation) {
 
 
   //FOR DEBUGGING, REMOVE LATER
+  /*
   std::cout << "Diff info: " << std::endl;
   std::cout << "X: " << diff.getX() << " Y: " << diff.getY() << std::endl;
   std::cout << "Radius: " << polDiff.getR() << " Theta: " << polDiff.getTheta() << std::endl;
+  */
 
   //Electric field strength is kQ/r^2
   //double fieldStrength = COULOMB * particle.getCharge() / ( polDiff.getR() * polDiff.getR() );
-  double fieldStrength = COULOMB * particle.getCharge() / (diff.getX() * diff.getX() + diff.getY() + diff.getY());
+  double fieldStrength = COULOMB * particle.getCharge() / (diff.getX() * diff.getX() + diff.getY() * diff.getY());
 
-  PolVector fieldVector(fieldStrength, polDiff.getTheta());
+  double theta = polDiff.getTheta();
+
+  if(fieldStrength < 0) {
+    fieldStrength = fabs(fieldStrength);
+    theta += M_PI;
+  }
+
+  PolVector fieldVector(fieldStrength, theta);
   FieldVector result(aLocation, fieldVector);
 
   return result;
