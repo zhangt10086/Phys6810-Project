@@ -30,7 +30,7 @@ using namespace std;
 
 const double TOLERENCE = 1e-13; //Tolerence for us to consider to doubles to be equal.
 
-const double FIELD_SCALE = 1.0e11; //Scale to make field vectors visible
+const double FIELD_SCALE = 5.0e10; //Scale to make field vectors visible
 const double POTENTIAL_SCALE = 1e10; //Scale for potential graph
 
 inline bool isEqual(double a, double b); //Boolean function to compare whether or not a and b are equal
@@ -88,8 +88,8 @@ int main() {
   foutField.open("fieldGrid.dat");
 
   //Initialize headers for both files
-  //foutPotential << "#x     y      V" << endl;
-  //foutField << "#x    y    fieldX  fieldY" << endl;
+  foutPotential << "#x     y      V" << endl;
+  foutField << "#x    y    fieldX  fieldY" << endl;
 
   //Set precision on files
   foutPotential << setprecision(3);
@@ -140,9 +140,9 @@ int main() {
 	CarVector location(x, y);
 	double potential = calculatePotential(particleVector, location);
 
-	foutPotential << left << setw(15) << x
-		      << left << setw(15) << y
-		      << left << setw(15) << potential * POTENTIAL_SCALE << endl;
+	foutPotential << left << setw(8) << x
+		      << left << setw(8) << y
+		      << left << setw(8) << potential * POTENTIAL_SCALE << endl;
 
 	//After calculating potential, loop through equipotential array to determine if we should calculate the
 	//electric field also
@@ -179,10 +179,10 @@ int main() {
 	  cout << "Angle: " << fieldLength.getTheta() << endl;
 	  */
 
-	  foutField << left << setw(15) << x
-		    << left << setw(15) << y
-		    << left << setw(15) << polToCar.getX() * FIELD_SCALE
-		    << left << setw(15) << polToCar.getY() * FIELD_SCALE << endl;
+	  foutField << left << setw(8) << x
+		    << left << setw(8) << y
+		    << left << setw(8) << polToCar.getX() * FIELD_SCALE
+		    << left << setw(8) << polToCar.getY() * FIELD_SCALE << endl;
 
 	}
       }

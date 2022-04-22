@@ -1,6 +1,6 @@
-#set pm3d;
-#set hidden3d front;
-#set surface;
+#set grid
+
+set title '3D Potential Surface'
 
 set key outside;
 set hidden3d;
@@ -9,5 +9,10 @@ set hidden3d;
 
 set zrange[0:-30]
 
+#Set labels
+set xlabel 'X position'
+set ylabel 'Y position'
+set zlabel 'Potential'
+
 #set dgrid3d
-splot 'potentialGrid.dat'
+splot 'potentialGrid.dat' title 'Potential Surface'
